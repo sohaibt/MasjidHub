@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap");
+
+:root {
+  --primary: #1B5E20;
+  --primary-light: #E8F5E9;
+  --accent: #C9A84C;
+  --accent-light: #FBF6E8;
+  --warm-white: #FAF7F2;
+  --warm-gray: #E8E0D4;
+  --text-primary: #1A1A1A;
+  --text-secondary: #5A5A5A;
+}
+
+body {
+  color: var(--text-primary);
+  background: var(--warm-white);
+  font-family: "Inter", sans-serif;
+}
+
+[dir="rtl"] body,
+[dir="rtl"] {
+  font-family: "Amiri", serif;
+}
+
+[dir="rtl"] .font-inter {
+  font-family: "Amiri", serif;
+}
+
+/* Smooth scrolling for anchor navigation */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+/* Islamic geometric pattern background */
+.islamic-pattern {
+  background-color: #1B5E20;
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='0.5' opacity='0.12'%3E%3Cpath d='M40 0 L80 40 L40 80 L0 40Z'/%3E%3Cpath d='M40 10 L70 40 L40 70 L10 40Z'/%3E%3Cpath d='M40 20 L60 40 L40 60 L20 40Z'/%3E%3Cpath d='M0 0 L40 40 L0 80'/%3E%3Cpath d='M80 0 L40 40 L80 80'/%3E%3Ccircle cx='40' cy='40' r='8'/%3E%3Ccircle cx='0' cy='0' r='8'/%3E%3Ccircle cx='80' cy='0' r='8'/%3E%3Ccircle cx='0' cy='80' r='8'/%3E%3Ccircle cx='80' cy='80' r='8'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Progress bar animation */
+@keyframes progressFill {
+  from {
+    width: 0%;
+  }
+  to {
+    width: var(--progress-width);
+  }
+}
+
+.animate-progress {
+  animation: progressFill 1s ease-out forwards;
+}
+
+/* Gold gradient for decorative elements */
+.gold-gradient {
+  background: linear-gradient(135deg, #C9A84C 0%, #E5CA75 50%, #C9A84C 100%);
+}
+
+/* Card hover effect */
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
