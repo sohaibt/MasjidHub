@@ -1,0 +1,45 @@
+{
+  "Config": {
+    "headers": ["key", "value_en", "value_ar"],
+    "rows": [
+      ["masjid_name", "Al-Noor Masjid", "مسجد النور"],
+      ["masjid_tagline", "A home for the community", "بيت للمجتمع"],
+      ["address", "123 Community Drive, Springfield, IL 62701", "١٢٣ شارع المجتمع، سبرينغفيلد"],
+      ["phone", "+1 (555) 123-4567", "+1 (555) 123-4567"],
+      ["email", "info@alnoormasjid.org", "info@alnoormasjid.org"],
+      ["whatsapp_number", "15551234567", "15551234567"],
+      ["volunteer_email", "volunteer@alnoormasjid.org", "volunteer@alnoormasjid.org"],
+      ["google_maps_embed_url", "https://www.google.com/maps/embed?pb=YOUR_EMBED_URL", ""],
+      ["hero_message", "Welcome to our Masjid — May peace be upon you", "مرحباً بكم في مسجدنا — السلام عليكم"],
+      ["facebook_url", "https://facebook.com/yourmasjid", ""],
+      ["instagram_url", "https://instagram.com/yourmasjid", ""],
+      ["twitter_url", "", ""],
+      ["youtube_url", "", ""],
+      ["jummah_time", "1:00 PM", "١:٠٠ ظهراً"],
+      ["masjid_lat", "39.78", ""],
+      ["masjid_lng", "-89.65", ""]
+    ]
+  },
+  "Announcements": {
+    "headers": ["id", "date", "title_en", "title_ar", "body_en", "body_ar", "is_pinned", "is_active"],
+    "rows": [
+      ["1", "2025-03-01", "Welcome to Masjid Hub", "مرحباً بكم في Masjid Hub", "This is a sample announcement. Edit your Google Sheet to update this content.", "هذا إعلان نموذجي. قم بتعديل جدول Google الخاص بك لتحديث هذا المحتوى.", "TRUE", "TRUE"],
+      ["2", "2025-02-28", "Weekend Classes", "دروس نهاية الأسبوع", "Weekend Islamic school registration is now open for all ages.", "التسجيل في المدرسة الإسلامية في عطلة نهاية الأسبوع مفتوح الآن لجميع الأعمار.", "FALSE", "TRUE"]
+    ]
+  },
+  "Events": {
+    "headers": ["id", "date", "time", "title_en", "title_ar", "description_en", "description_ar", "location_en", "location_ar", "category", "volunteer_needed", "volunteer_contact"],
+    "rows": [
+      ["1", "2025-03-07", "1:00 PM", "Jummah Prayer", "صلاة الجمعة", "Weekly Jummah prayer with Khutbah.", "صلاة الجمعة الأسبوعية مع الخطبة.", "Main Musalla", "المصلى الرئيسي", "prayer", "FALSE", ""],
+      ["2", "2025-03-10", "6:30 PM", "Community Iftar", "إفطار مجتمعي", "Join us for community iftar. All are welcome.", "انضموا إلينا للإفطار المجتمعي. الجميع مرحب بهم.", "Main Hall", "القاعة الرئيسية", "iftar", "TRUE", "https://wa.me/15551234567"],
+      ["3", "2025-03-15", "7:30 PM", "Quran Study Circle", "حلقة دراسة القرآن", "Weekly Quran study and tafseer session.", "جلسة دراسة القرآن والتفسير الأسبوعية.", "Library", "المكتبة", "lecture", "FALSE", ""]
+    ]
+  },
+  "Donations": {
+    "headers": ["id", "title_en", "title_ar", "description_en", "description_ar", "goal_amount", "current_amount", "currency", "donate_link", "is_active"],
+    "rows": [
+      ["1", "Masjid Operations Fund", "صندوق عمليات المسجد", "Support the daily operations of our masjid.", "ادعموا العمليات اليومية لمسجدنا.", "25000", "12000", "USD", "https://your-donation-link.com", "TRUE"],
+      ["2", "General Sadaqah", "صدقة عامة", "Give general sadaqah to support community programs.", "تبرعوا بالصدقة العامة لدعم البرامج المجتمعية.", "0", "0", "USD", "https://your-donation-link.com", "TRUE"]
+    ]
+  }
+}
