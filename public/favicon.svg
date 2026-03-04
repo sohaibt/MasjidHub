@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#1B5E20"/>
+  <g transform="translate(32,32)">
+    <!-- Crescent moon -->
+    <circle cx="-2" cy="-4" r="14" fill="#D4A843"/>
+    <circle cx="4" cy="-6" r="11" fill="#1B5E20"/>
+    <!-- Star -->
+    <polygon points="10,-2 11.5,2.5 16,2.5 12.5,5.5 13.5,10 10,7 6.5,10 7.5,5.5 4,2.5 8.5,2.5" fill="#D4A843"/>
+  </g>
+</svg>
