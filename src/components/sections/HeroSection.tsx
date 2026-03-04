@@ -46,6 +46,9 @@ export function HeroSection({ config }: { config: SiteConfig }) {
 
   const masjidName = isRTL ? config.masjid_name.ar : config.masjid_name.en;
   const heroMessage = isRTL ? config.hero_message.ar : config.hero_message.en;
+  const jummahTime = isRTL
+    ? config.jummah_time.ar || config.jummah_time.en
+    : config.jummah_time.en;
 
   useEffect(() => {
     setHijriDate(lang === "ar" ? getHijriDateArabic() : getHijriDate());
@@ -114,13 +117,21 @@ export function HeroSection({ config }: { config: SiteConfig }) {
               </p>
             )}
 
-            {/* Hijri date */}
-            {hijriDate && (
-              <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm rounded-full px-4 py-2 text-white/90 text-sm">
-                <span>☪</span>
-                <span>{hijriDate}</span>
-              </div>
-            )}
+            {/* Hijri date & Jummah badge */}
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              {hijriDate && (
+                <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm rounded-full px-4 py-2 text-white/90 text-sm">
+                  <span>☪</span>
+                  <span>{hijriDate}</span>
+                </div>
+              )}
+              {jummahTime && (
+                <div className="inline-flex items-center gap-2 bg-accent/90 backdrop-blur-sm rounded-full px-4 py-2 text-white text-sm font-semibold shadow-lg">
+                  <span>{t("footer_jummah", lang)}</span>
+                  <span className="border-l border-white/40 pl-2">{jummahTime}</span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
