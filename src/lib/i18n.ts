@@ -12,6 +12,15 @@ export const translations = {
   hero_hijri_date: { en: "Hijri Date", ar: "التاريخ الهجري" },
   hero_prayer_times: { en: "Prayer Times", ar: "مواقيت الصلاة" },
 
+  hero_next_prayer: { en: "Next Prayer", ar: "الصلاة القادمة" },
+  hero_prayer_in: { en: "in {time}", ar: "بعد {time}" },
+  hero_prayer_now: { en: "now", ar: "الآن" },
+  hero_prayer_tomorrow: { en: "tomorrow", ar: "غداً" },
+  hero_prayer_unavailable: {
+    en: "Prayer times are unavailable right now.",
+    ar: "مواقيت الصلاة غير متاحة حالياً.",
+  },
+
   // Prayer names
   prayer_fajr: { en: "Fajr", ar: "الفجر" },
   prayer_sunrise: { en: "Sunrise", ar: "الشروق" },
@@ -36,6 +45,7 @@ export const translations = {
     en: "No upcoming events at this time.",
     ar: "لا توجد فعاليات قادمة حالياً.",
   },
+  events_add_to_calendar: { en: "Add to Calendar", ar: "أضف إلى التقويم" },
   events_all: { en: "All", ar: "الكل" },
   events_prayers: { en: "Prayers", ar: "الصلوات" },
   events_iftars: { en: "Iftars", ar: "الإفطار" },
@@ -108,6 +118,10 @@ export const translations = {
 
   // Language toggle
   lang_toggle: { en: "ع", ar: "EN" },
+
+  // Theme toggle
+  theme_to_dark: { en: "Switch to dark mode", ar: "التبديل إلى الوضع الداكن" },
+  theme_to_light: { en: "Switch to light mode", ar: "التبديل إلى الوضع الفاتح" },
 } as const;
 
 export type TranslationKey = keyof typeof translations;

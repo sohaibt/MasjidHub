@@ -13,11 +13,49 @@
   --warm-gray: #E8E0D4;
   --text-primary: #1A1A1A;
   --text-secondary: #5A5A5A;
+
+  /*
+   * Semantic theme tokens, as space-separated RGB channels so Tailwind can
+   * apply opacity modifiers (bg-surface/95). The `.dark` block below is the
+   * only place these are overridden — components reference the token names,
+   * never a literal light or dark colour.
+   */
+  --c-canvas: 250 247 242;
+  --c-surface: 255 255 255;
+  --c-surface-alt: 245 240 232;
+  --c-line: 232 224 212;
+  --c-content: 26 26 26;
+  --c-muted: 107 99 85;
+  --c-faint: 143 133 116;
+  --c-brand: 27 94 32;
+  --c-brand-solid: 27 94 32;
+  --c-brand-solid-hover: 23 82 25;
+  --c-brand-soft: 232 245 233;
+
+  color-scheme: light;
+}
+
+.dark {
+  --c-canvas: 16 20 15;
+  --c-surface: 25 30 23;
+  --c-surface-alt: 35 42 33;
+  --c-line: 47 55 44;
+  --c-content: 233 237 230;
+  --c-muted: 163 172 157;
+  --c-faint: 126 136 120;
+  /* Deep green is unreadable as text on a dark canvas, so the brand lightens
+     while solid brand surfaces stay green enough to carry white text. */
+  --c-brand: 140 203 144;
+  --c-brand-solid: 46 125 50;
+  --c-brand-solid-hover: 56 142 60;
+  --c-brand-soft: 30 42 30;
+
+  color-scheme: dark;
 }
 
 body {
-  color: var(--text-primary);
-  background: var(--warm-white);
+  color: rgb(var(--c-content));
+  background: rgb(var(--c-canvas));
   font-family: "Inter", sans-serif;
 }
 
@@ -69,6 +107,10 @@ html {
 .card-hover:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.dark .card-hover:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
 }
 
 @layer utilities {

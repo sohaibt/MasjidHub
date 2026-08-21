@@ -2,7 +2,10 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const viewport: Viewport = {
-  themeColor: "#1B5E20",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#1B5E20" },
+    { media: "(prefers-color-scheme: dark)", color: "#10140F" },
+  ],
   width: "device-width",
   initialScale: 1,
 };
@@ -46,8 +49,19 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
+        {/*
+          Applies the stored theme before first paint so a dark-mode visitor
+          never sees a white flash. Kept as a raw inline script because React
+          state would run too late. The storage key matches THEME_STORAGE_KEY
+          in theme-context.tsx.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var s=localStorage.getItem("masjidhub-theme");var d=s?s==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;if(d){document.documentElement.classList.add("dark")}}catch(e){}})();`,
+          }}
+        />
       </head>
-      <body className="font-inter antialiased bg-warmWhite text-gray-900">
+      <body className="font-inter antialiased bg-canvas text-content">
         {children}
       </body>
     </html>

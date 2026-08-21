@@ -1,12 +1,20 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { ChevronLeft, ChevronRight, MapPin, Clock, Users } from "lucide-react";
+import {
+  CalendarPlus,
+  ChevronLeft,
+  ChevronRight,
+  Clock,
+  MapPin,
+  Users,
+} from "lucide-react";
 import { useLanguage } from "@/lib/language-context";
 import { t, getCategoryLabel, getCategoryBadgeVariant } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { downloadEventIcs } from "@/lib/ics";
 import type { MasjidEvent, SiteConfig } from "@/lib/types";
 
 const categoryFilters = [
@@ -107,7 +115,7 @@ function Calendar({
     today.getMonth() === month && today.getFullYear() === year;
 
   return (
-    <div className="bg-white rounded-xl border border-warmGray-200 shadow-sm p-4 md:p-6">
+    <div className="bg-surface rounded-xl border border-line shadow-sm p-4 md:p-6">
       {/* Calendar header */}
       <div className="flex items-center justify-between mb-4">
         <Button
@@ -118,7 +126,7 @@ function Calendar({
         >
           <ChevronLeft className="w-5 h-5" />
         </Button>
-        <h3 className="text-lg font-semibold text-primary font-amiri">
+        <h3 className="text-lg font-semibold text-brand font-amiri">
           {monthName} {year}
         </h3>
         <Button
@@ -136,7 +144,7 @@ function Calendar({
         {dayKeys.map((dk) => (
           <div
             key={dk}
-            className="text-center text-xs font-medium text-warmGray-400 py-1"
+            className="text-center text-xs font-medium text-faint py-1"
           >
             {t(dk, lang as "en" | "ar")}
           </div>
@@ -160,16 +168,16 @@ function Calendar({
             <div
               key={day}
               className={`aspect-square flex flex-col items-center justify-center rounded-lg text-sm relative
-                ${isToday ? "bg-primary text-white font-bold" : ""}
-                ${hasEvent && !isToday ? "bg-primary-50 text-primary font-medium" : ""}
-                ${!hasEvent && !isToday ? "text-warmGray-500 hover:bg-warmGray-100" : ""}
+                ${isToday ? "bg-brandSolid text-white font-bold" : ""}
+                ${hasEvent && !isToday ? "bg-brandSoft text-brand font-medium" : ""}
+                ${!hasEvent && !isToday ? "text-muted hover:bg-surfaceAlt" : ""}
               `}
             >
               {day}
               {hasEvent && (
                 <div
                   className={`w-1.5 h-1.5 rounded-full absolute bottom-1 ${
-                    isToday ? "bg-accent" : "bg-primary"
+                    isToday ? "bg-accent" : "bg-brandSolid"
                   }`}
                 />
               )}
@@ -202,9 +210,9 @@ export function EventsSection({
   }, [events, filter]);
 
   return (
-    <section id="events" className="py-16 bg-white">
+    <section id="events" className="py-16 bg-surface">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-primary mb-8 text-center font-amiri">
+        <h2 className="text-3xl font-bold text-brand mb-8 text-center font-amiri">
           {t("events_title", lang)}
         </h2>
 
@@ -235,12 +243,12 @@ export function EventsSection({
               ))}
             </div>
 
-            <h3 className="text-lg font-semibold text-primary mb-4">
+            <h3 className="text-lg font-semibold text-brand mb-4">
               {t("events_upcoming", lang)}
             </h3>
 
             {filteredEvents.length === 0 ? (
-              <p className="text-warmGray-500 text-center py-8">
+              <p className="text-muted text-center py-8">
                 {t("events_empty", lang)}
               </p>
             ) : (
@@ -274,14 +282,14 @@ export function EventsSection({
                                 </Badge>
                               )}
                             </div>
-                            <CardTitle className="text-primary font-amiri">
+                            <CardTitle className="text-brand font-amiri">
                               {title}
                             </CardTitle>
                           </div>
                         </div>
                       </CardHeader>
                       <CardContent className="pb-3">
-                        <div className="flex flex-wrap gap-4 text-sm text-warmGray-500 mb-3">
+                        <div className="flex flex-wrap gap-4 text-sm text-muted mb-3">
                           <span className="flex items-center gap-1">
                             <Clock className="w-4 h-4" />
                             {formatDate(event.date, lang)} • {event.time}
@@ -293,12 +301,12 @@ export function EventsSection({
                             </span>
                           )}
                         </div>
-                        <p className="text-warmGray-500 text-sm leading-relaxed">
+                        <p className="text-muted text-sm leading-relaxed">
                           {description}
                         </p>
                       </CardContent>
-                      {event.volunteer_needed && (
-                        <CardFooter>
+                      <CardFooter className="gap-2 flex-wrap">
+                        {event.volunteer_needed && (
                           <a
                             href={getVolunteerLink(event, config, lang)}
                             target="_blank"
@@ -309,8 +317,24 @@ export function EventsSection({
                               {t("events_volunteer", lang)}
                             </Button>
                           </a>
-                        </CardFooter>
-                      )}
+                        )}
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() =>
+                            downloadEventIcs(event, lang, {
+                              masjidName: config.masjid_name.en,
+                              uidDomain:
+                                typeof window === "undefined"
+                                  ? undefined
+                                  : window.location.hostname,
+                            })
+                          }
+                        >
+                          <CalendarPlus className="w-4 h-4 mr-2" />
+                          {t("events_add_to_calendar", lang)}
+                        </Button>
+                      </CardFooter>
                     </Card>
                   );
                 })}
