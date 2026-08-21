@@ -5,6 +5,37 @@ import type { SiteConfig, Announcement, MasjidEvent, DonationCampaign } from "./
  * This allows the site to render with sample content for development and preview.
  */
 
+/**
+ * Formats a Date as a `YYYY-MM-DD` string using local calendar fields,
+ * matching the date format used by the Google Sheets data.
+ */
+function toISODate(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+/**
+ * Returns the date `offset` days from today. Negative offsets are in the past.
+ */
+function daysFromNow(offset: number): string {
+  const date = new Date();
+  date.setDate(date.getDate() + offset);
+  return toISODate(date);
+}
+
+/**
+ * Returns the next Friday, optionally `weeksAhead` weeks further out.
+ * When today is a Friday this rolls forward to the following one.
+ */
+function upcomingFriday(weeksAhead = 0): string {
+  const date = new Date();
+  const daysUntilFriday = (5 - date.getDay() + 7) % 7 || 7;
+  date.setDate(date.getDate() + daysUntilFriday + weeksAhead * 7);
+  return toISODate(date);
+}
+
 export const demoConfig: SiteConfig = {
   masjid_name: { en: "Al-Noor Masjid", ar: "مسجد النور" },
   masjid_tagline: {
@@ -37,7 +68,7 @@ export const demoConfig: SiteConfig = {
 export const demoAnnouncements: Announcement[] = [
   {
     id: "1",
-    date: "2025-03-01",
+    date: daysFromNow(-1),
     title_en: "Ramadan Schedule Update",
     title_ar: "تحديث جدول رمضان",
     body_en:
@@ -49,7 +80,7 @@ export const demoAnnouncements: Announcement[] = [
   },
   {
     id: "2",
-    date: "2025-02-28",
+    date: daysFromNow(-6),
     title_en: "Weekend Islamic School Registration",
     title_ar: "تسجيل المدرسة الإسلامية في عطلة نهاية الأسبوع",
     body_en:
@@ -61,7 +92,7 @@ export const demoAnnouncements: Announcement[] = [
   },
   {
     id: "3",
-    date: "2025-02-25",
+    date: daysFromNow(-13),
     title_en: "Community Potluck This Saturday",
     title_ar: "وليمة مجتمعية هذا السبت",
     body_en:
@@ -73,10 +104,10 @@ export const demoAnnouncements: Announcement[] = [
   },
 ];
 
-export const demoEvents: MasjidEvent[] = [
+const demoEventsList: MasjidEvent[] = [
   {
     id: "1",
-    date: "2025-03-05",
+    date: daysFromNow(3),
     time: "6:15 PM",
     title_en: "Community Iftar",
     title_ar: "إفطار مجتمعي",
@@ -92,7 +123,7 @@ export const demoEvents: MasjidEvent[] = [
   },
   {
     id: "2",
-    date: "2025-03-07",
+    date: upcomingFriday(),
     time: "7:30 PM",
     title_en: "Friday Night Lecture: The Mercy of Allah",
     title_ar: "محاضرة ليلة الجمعة: رحمة الله",
@@ -108,7 +139,7 @@ export const demoEvents: MasjidEvent[] = [
   },
   {
     id: "3",
-    date: "2025-03-14",
+    date: upcomingFriday(1),
     time: "1:00 PM",
     title_en: "Jummah Prayer",
     title_ar: "صلاة الجمعة",
@@ -122,7 +153,7 @@ export const demoEvents: MasjidEvent[] = [
   },
   {
     id: "4",
-    date: "2025-03-20",
+    date: daysFromNow(17),
     time: "6:00 PM",
     title_en: "Annual Fundraising Dinner",
     title_ar: "حفل العشاء السنوي لجمع التبرعات",
@@ -138,7 +169,7 @@ export const demoEvents: MasjidEvent[] = [
   },
   {
     id: "5",
-    date: "2025-03-22",
+    date: daysFromNow(24),
     time: "6:15 PM",
     title_en: "Sisters' Iftar Gathering",
     title_ar: "إفطار الأخوات",
@@ -151,6 +182,14 @@ export const demoEvents: MasjidEvent[] = [
     volunteer_contact: "https://wa.me/15551234567",
   },
 ];
+
+/**
+ * Sorted by date ascending to match the ordering that `fetchEvents()` applies
+ * to live sheet data.
+ */
+export const demoEvents: MasjidEvent[] = [...demoEventsList].sort(
+  (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+);
 
 export const demoDonations: DonationCampaign[] = [
   {
