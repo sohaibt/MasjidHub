@@ -12,6 +12,15 @@ export const translations = {
   hero_hijri_date: { en: "Hijri Date", ar: "التاريخ الهجري" },
   hero_prayer_times: { en: "Prayer Times", ar: "مواقيت الصلاة" },
 
+  hero_next_prayer: { en: "Next Prayer", ar: "الصلاة القادمة" },
+  hero_prayer_in: { en: "in {time}", ar: "بعد {time}" },
+  hero_prayer_now: { en: "now", ar: "الآن" },
+  hero_prayer_tomorrow: { en: "tomorrow", ar: "غداً" },
+  hero_prayer_unavailable: {
+    en: "Prayer times are unavailable right now.",
+    ar: "مواقيت الصلاة غير متاحة حالياً.",
+  },
+
   // Prayer names
   prayer_fajr: { en: "Fajr", ar: "الفجر" },
   prayer_sunrise: { en: "Sunrise", ar: "الشروق" },

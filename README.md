@@ -8,7 +8,7 @@ A free, open-source website template that any masjid can set up in under an hour
 
 - **Google Sheets CMS** — Update your site by editing a Google Sheet. No database, no backend, no server.
 - **Bilingual (Arabic + English)** — Full RTL support with one-click language toggle
-- **Prayer Times** — Auto-fetched daily prayer times via the Aladhan API
+- **Prayer Times** — Auto-fetched daily prayer times via the Aladhan API, with the next prayer highlighted and a live countdown
 - **Hijri Calendar** — Current Hijri date displayed prominently
 - **Events Calendar** — Monthly calendar view with category filters (prayers, iftars, lectures, fundraisers)
 - **Announcements** — Pinned/regular announcements with easy show/hide toggle
@@ -50,9 +50,14 @@ This section explains every feature in detail, including how it works under the 
 
 ### Prayer Times
 
-**What it does:** Displays the six daily prayer times (Fajr, Sunrise, Dhuhr, Asr, Maghrib, Isha) in the hero section, automatically calculated for your masjid's location.
+**What it does:** Displays the six daily prayer times (Fajr, Sunrise, Dhuhr, Asr, Maghrib, Isha) in the hero section, automatically calculated for your masjid's location. The next prayer is called out above the times with a live countdown ("Maghrib 19:48 — in 2h 14m") and highlighted in the row below.
 
 **How it works:** Prayer times are fetched **client-side** (in the visitor's browser) each day from the [Aladhan API](https://aladhan.com/prayer-times-api) using the ISNA calculation method (method=2). The times are based on your masjid's latitude and longitude — **not** the visitor's location. No manual updating is needed; times are always current.
+
+The countdown runs on **your masjid's clock**, not the visitor's, so someone checking the site from another timezone still sees the correct time remaining. Two details worth knowing:
+
+- **Sunrise is never the "next prayer."** It is shown because it marks the end of Fajr, but it is skipped when picking what comes next.
+- **After Isha, the countdown rolls over to tomorrow's Fajr** and is labelled `tomorrow`. Tomorrow's timings are fetched alongside today's so the rollover stays accurate as Fajr shifts through the year.
 
 **Google Sheet configuration:** In the **Config** tab, set these rows:
 
@@ -61,11 +66,13 @@ This section explains every feature in detail, including how it works under the 
 | `masjid_lat` | Your masjid's latitude (e.g., `33.7490`) | _(leave blank)_ |
 | `masjid_lng` | Your masjid's longitude (e.g., `-84.3880`) | _(leave blank)_ |
 
-You can also set the timezone in `masjid.config.ts`:
+You can also set a timezone in `masjid.config.ts`:
 
 ```ts
 TIMEZONE: "America/New_York",  // IANA timezone string
 ```
+
+This is only a **fallback**. The Aladhan API reports the timezone for the coordinates you gave it, and that value is preferred because it is derived from your actual location — `TIMEZONE` is used only if the API omits it. You do not need to change it for the countdown to be correct.
 
 **How to find your coordinates:** Search your masjid on Google Maps, right-click the pin, and copy the latitude/longitude values.
 
