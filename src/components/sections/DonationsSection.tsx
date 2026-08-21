@@ -30,12 +30,12 @@ export function DonationsSection({
 
   if (donations.length === 0) {
     return (
-      <section id="donate" className="py-16 bg-warmWhite">
+      <section id="donate" className="py-16 bg-canvas">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-primary mb-8 text-center font-amiri">
+          <h2 className="text-3xl font-bold text-brand mb-8 text-center font-amiri">
             {t("donations_title", lang)}
           </h2>
-          <p className="text-center text-warmGray-500">
+          <p className="text-center text-muted">
             {t("donations_empty", lang)}
           </p>
         </div>
@@ -44,9 +44,9 @@ export function DonationsSection({
   }
 
   return (
-    <section id="donate" className="py-16 bg-warmWhite">
+    <section id="donate" className="py-16 bg-canvas">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-primary mb-8 text-center font-amiri">
+        <h2 className="text-3xl font-bold text-brand mb-8 text-center font-amiri">
           {t("donations_title", lang)}
         </h2>
 
@@ -78,13 +78,13 @@ export function DonationsSection({
                 <CardHeader>
                   <div className="flex items-center gap-2 mb-1">
                     <Heart className="w-5 h-5 text-accent" />
-                    <CardTitle className="text-primary font-amiri">
+                    <CardTitle className="text-brand font-amiri">
                       {title}
                     </CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent className="flex-1">
-                  <p className="text-warmGray-500 text-sm leading-relaxed mb-4">
+                  <p className="text-muted text-sm leading-relaxed mb-4">
                     {description}
                   </p>
 
@@ -92,16 +92,16 @@ export function DonationsSection({
                     <div className="space-y-2">
                       <Progress value={progress} />
                       <div className="flex justify-between text-sm">
-                        <span className="text-warmGray-500">
+                        <span className="text-muted">
                           {t("donations_raised", lang)}:{" "}
-                          <span className="font-semibold text-primary">
+                          <span className="font-semibold text-brand">
                             {formatCurrency(
                               donation.current_amount,
                               donation.currency
                             )}
                           </span>
                         </span>
-                        <span className="text-warmGray-400">
+                        <span className="text-faint">
                           {t("donations_goal", lang)}:{" "}
                           {formatCurrency(
                             donation.goal_amount,

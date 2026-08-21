@@ -28,12 +28,12 @@ export function AnnouncementsSection({
 
   if (announcements.length === 0) {
     return (
-      <section id="announcements" className="py-16 bg-warmWhite">
+      <section id="announcements" className="py-16 bg-canvas">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-primary mb-8 text-center font-amiri">
+          <h2 className="text-3xl font-bold text-brand mb-8 text-center font-amiri">
             {t("announcements_title", lang)}
           </h2>
-          <p className="text-center text-warmGray-500">
+          <p className="text-center text-muted">
             {t("announcements_empty", lang)}
           </p>
         </div>
@@ -42,9 +42,9 @@ export function AnnouncementsSection({
   }
 
   return (
-    <section id="announcements" className="py-16 bg-warmWhite">
+    <section id="announcements" className="py-16 bg-canvas">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-primary mb-8 text-center font-amiri">
+        <h2 className="text-3xl font-bold text-brand mb-8 text-center font-amiri">
           {t("announcements_title", lang)}
         </h2>
 
@@ -67,7 +67,7 @@ export function AnnouncementsSection({
                 key={announcement.id}
                 className={
                   announcement.is_pinned
-                    ? "border-accent-300 bg-accent-50/30"
+                    ? "border-accent-300 bg-accent-50/30 dark:border-accent-700/50 dark:bg-accent-900/20"
                     : ""
                 }
               >
@@ -79,17 +79,17 @@ export function AnnouncementsSection({
                           📌 {t("announcements_pinned", lang)}
                         </Badge>
                       )}
-                      <CardTitle className="text-primary font-amiri">
+                      <CardTitle className="text-brand font-amiri">
                         {title}
                       </CardTitle>
                     </div>
                   </div>
-                  <p className="text-xs text-warmGray-400 mt-1">
+                  <p className="text-xs text-faint mt-1">
                     {formatDate(announcement.date, lang)}
                   </p>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-warmGray-500 text-sm leading-relaxed">
+                  <p className="text-muted text-sm leading-relaxed">
                     {body}
                   </p>
                 </CardContent>

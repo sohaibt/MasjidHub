@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: "class",
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -35,6 +36,21 @@ const config: Config = {
           800: "#7C6526",
           900: "#5E4C1D",
         },
+        // Semantic tokens, resolved from the CSS variables in globals.css so a
+        // single `.dark` block re-themes the whole site. Prefer these over the
+        // raw palette below for anything that must work in both themes.
+        canvas: "rgb(var(--c-canvas) / <alpha-value>)",
+        surface: "rgb(var(--c-surface) / <alpha-value>)",
+        surfaceAlt: "rgb(var(--c-surface-alt) / <alpha-value>)",
+        line: "rgb(var(--c-line) / <alpha-value>)",
+        content: "rgb(var(--c-content) / <alpha-value>)",
+        muted: "rgb(var(--c-muted) / <alpha-value>)",
+        faint: "rgb(var(--c-faint) / <alpha-value>)",
+        brand: "rgb(var(--c-brand) / <alpha-value>)",
+        brandSolid: "rgb(var(--c-brand-solid) / <alpha-value>)",
+        brandSolidHover: "rgb(var(--c-brand-solid-hover) / <alpha-value>)",
+        brandSoft: "rgb(var(--c-brand-soft) / <alpha-value>)",
+
         warmWhite: "#FAF7F2",
         warmGray: {
           100: "#F5F0E8",

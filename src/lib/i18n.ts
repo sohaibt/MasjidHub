@@ -45,6 +45,7 @@ export const translations = {
     en: "No upcoming events at this time.",
     ar: "لا توجد فعاليات قادمة حالياً.",
   },
+  events_add_to_calendar: { en: "Add to Calendar", ar: "أضف إلى التقويم" },
   events_all: { en: "All", ar: "الكل" },
   events_prayers: { en: "Prayers", ar: "الصلوات" },
   events_iftars: { en: "Iftars", ar: "الإفطار" },
@@ -117,6 +118,10 @@ export const translations = {
 
   // Language toggle
   lang_toggle: { en: "ع", ar: "EN" },
+
+  // Theme toggle
+  theme_to_dark: { en: "Switch to dark mode", ar: "التبديل إلى الوضع الداكن" },
+  theme_to_light: { en: "Switch to light mode", ar: "التبديل إلى الوضع الفاتح" },
 } as const;
 
 export type TranslationKey = keyof typeof translations;

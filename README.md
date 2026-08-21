@@ -11,6 +11,7 @@ A free, open-source website template that any masjid can set up in under an hour
 - **Prayer Times** — Auto-fetched daily prayer times via the Aladhan API, with the next prayer highlighted and a live countdown
 - **Hijri Calendar** — Current Hijri date displayed prominently
 - **Events Calendar** — Monthly calendar view with category filters (prayers, iftars, lectures, fundraisers)
+- **Add to Calendar** — One click saves any event to Apple Calendar, Google Calendar, or Outlook
 - **Announcements** — Pinned/regular announcements with easy show/hide toggle
 - **Donation Campaigns** — Progress bars, goals, and direct links to payment pages
 - **Volunteer Signups** — WhatsApp/email links with pre-filled messages (no forms, no data handling)
@@ -18,6 +19,8 @@ A free, open-source website template that any masjid can set up in under an hour
 - **Islamic Design** — Warm green & gold palette with geometric patterns and Amiri Arabic font
 - **Fully Static** — Exports as plain HTML/CSS/JS. Deploy anywhere for free.
 - **Mobile Responsive** — Looks great on all screen sizes
+- **Dark Mode** — Follows the visitor's system preference, with a toggle that remembers their choice
+- **Search Engine Ready** — schema.org structured data, sitemap, and robots.txt so Google can show your events as rich results
 
 ## Screenshots
 
@@ -150,6 +153,13 @@ This is only a **fallback**. The Aladhan API reports the timezone for the coordi
 | `volunteer_needed` | Yes | `TRUE` or `FALSE` (see Volunteer Signups below) |
 | `volunteer_contact` | No | WhatsApp link or email (see Volunteer Signups below) |
 
+**Add to Calendar:** Every event card carries an **Add to Calendar** button that generates a standard `.ics` file in the visitor's browser — nothing is uploaded, and no server is involved. It imports into Apple Calendar, Google Calendar, Outlook, and anything else that reads iCalendar.
+
+- The `time` column is parsed from the shapes people actually type: `7:30 PM`, `7 PM`, `19:30`. If it is blank or unrecognized, the event is saved as an **all-day** entry rather than being skipped.
+- Events are saved with a *floating* time — 6:15pm means 6:15pm where the masjid is, no matter which timezone the visitor imports it from.
+- Since the sheet has no end-time column, events are given a **1 hour** duration.
+- Each file uses a stable identifier, so re-importing an event updates the existing entry instead of creating a duplicate.
+
 **Tips:**
 - Past events disappear automatically — no need to delete old rows
 - The calendar navigates month-by-month and shows dots on days with events
@@ -271,6 +281,38 @@ DEFAULT_LANGUAGE: "en",  // "en" for English, "ar" for Arabic
 
 ---
 
+### Dark Mode
+
+**What it does:** The site follows the visitor's system light/dark preference on first visit, and the moon/sun button in the navbar switches themes. The choice is remembered in that browser.
+
+**How it works:** Colors are defined as semantic CSS variables in `src/app/globals.css` (`--c-canvas`, `--c-surface`, `--c-content`, `--c-brand`, and so on) and exposed to Tailwind as utility names like `bg-surface` and `text-muted`. A single `.dark` block re-points those variables, so components never name a light or dark color directly.
+
+A small inline script in `src/app/layout.tsx` applies the stored theme before the first paint, so a dark-mode visitor never sees a white flash on load.
+
+**Customizing:** Edit the two blocks in `globals.css` — `:root` for light, `.dark` for dark. When adding your own markup, prefer the semantic utilities (`bg-surface`, `bg-canvas`, `text-content`, `text-muted`, `border-line`, `text-brand`) over raw palette classes like `bg-white`, or it will not follow the theme.
+
+---
+
+### Search Engine Optimization
+
+**What it does:** Search engines get a machine-readable description of your masjid and its upcoming events, which is what allows Google to show events with their dates and locations directly in search results.
+
+**How it works:** The homepage embeds [schema.org](https://schema.org) JSON-LD describing a `Mosque` (name, address, coordinates, phone, email, social profiles) and an `Event` for each upcoming event. It is rendered at build time by a server component, so crawlers see it without running JavaScript. Past events are excluded — Google flags structured data for events that have already happened.
+
+`sitemap.xml` and `robots.txt` are generated during the build from `src/app/sitemap.ts` and `src/app/robots.ts`.
+
+**Configuration:** All three need to know your public URL. Set it in your deploy environment:
+
+```bash
+NEXT_PUBLIC_SITE_URL=https://your-masjid.org
+```
+
+Or edit the `SITE_URL` fallback in `masjid.config.ts`. Until you set it, the structured data and sitemap point at the placeholder `https://example.org`, and search engines will not index the site correctly.
+
+**Verifying:** After deploying, paste your URL into Google's [Rich Results Test](https://search.google.com/test/rich-results) to confirm the events are picked up.
+
+---
+
 ## Prerequisites
 
 - [Node.js](https://nodejs.org) 18 or later
@@ -347,13 +389,29 @@ npm run build      # Build static export to /out folder
 
 ## Customizing Colors
 
-The default colors can be changed in `tailwind.config.ts`:
+The brand palette lives in `tailwind.config.ts`:
 
 | Color | Default | Purpose |
 |-------|---------|---------|
 | Primary | `#1B5E20` (Deep Green) | Main brand color |
 | Accent | `#C9A84C` (Warm Gold) | Highlights and CTAs |
 | Background | `#FAF7F2` (Warm Off-White) | Page background |
+
+Anything that has to change between light and dark is a **semantic token** instead, defined as a CSS variable in `src/app/globals.css` and used through Tailwind by name:
+
+| Utility | Meaning |
+|---------|---------|
+| `bg-canvas` | Page background |
+| `bg-surface` | Cards, navbar — raised above the canvas |
+| `bg-surfaceAlt` | Subtle fills and hover states |
+| `border-line` | Borders and dividers |
+| `text-content` | Body text |
+| `text-muted` / `text-faint` | Secondary and tertiary text |
+| `text-brand` | Brand color as text, readable on either canvas |
+| `bg-brandSolid` | Solid brand fill that carries white text |
+| `bg-brandSoft` | Tinted brand fill |
+
+Change a token once in `globals.css` and it updates everywhere in both themes.
 
 ## Project Structure
 
@@ -362,9 +420,11 @@ MasjidHub/
 ├── masjid.config.ts          # Site configuration
 ├── src/
 │   ├── app/
-│   │   ├── layout.tsx         # Root layout
-│   │   ├── page.tsx           # Main page (server component)
-│   │   └── globals.css        # Global styles + Islamic pattern
+│   │   ├── layout.tsx         # Root layout + no-flash theme script
+│   │   ├── page.tsx           # Main page (server component) + JSON-LD
+│   │   ├── sitemap.ts         # Generates sitemap.xml at build time
+│   │   ├── robots.ts          # Generates robots.txt at build time
+│   │   └── globals.css        # Global styles, theme tokens, Islamic pattern
 │   ├── components/
 │   │   ├── MasjidHubApp.tsx   # Main client component
 │   │   ├── CrescentLogo.tsx   # SVG crescent + star logo
@@ -387,7 +447,12 @@ MasjidHub/
 │       ├── types.ts           # TypeScript types
 │       ├── get-data.ts        # Data fetching with demo fallback
 │       ├── demo-data.ts       # Demo data for development
+│       ├── prayer-times.ts    # Next-prayer + countdown logic
+│       ├── event-time.ts      # Parses sheet date/time values
+│       ├── ics.ts             # Builds .ics calendar files in-browser
+│       ├── structured-data.ts # schema.org JSON-LD builder
 │       ├── language-context.tsx # Language/RTL context provider
+│       ├── theme-context.tsx  # Light/dark theme provider
 │       └── utils.ts           # Utility functions
 ├── sheets-template/
 │   ├── sheet-data.json        # Example sheet data structure

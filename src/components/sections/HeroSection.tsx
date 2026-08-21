@@ -222,16 +222,16 @@ export function HeroSection({ config }: { config: SiteConfig }) {
       </div>
 
       {/* Prayer times bar */}
-      <div className="bg-warmWhite">
+      <div className="bg-canvas">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h2 className="text-sm font-semibold text-primary uppercase tracking-wider mb-4 text-center">
+          <h2 className="text-sm font-semibold text-brand uppercase tracking-wider mb-4 text-center">
             {t("hero_prayer_times", lang)}
           </h2>
 
           {/* Next prayer callout */}
           {nextPrayer && (
             <div className="flex justify-center mb-4">
-              <div className="inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1 bg-primary text-white rounded-xl px-5 py-3 shadow-md">
+              <div className="inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1 bg-brandSolid text-white rounded-xl px-5 py-3 shadow-md">
                 <span className="text-[11px] uppercase tracking-wider text-white/70">
                   {t("hero_next_prayer", lang)}
                 </span>
@@ -257,12 +257,12 @@ export function HeroSection({ config }: { config: SiteConfig }) {
             <div className="flex justify-center">
               <div className="flex gap-4">
                 {[...Array(6)].map((_, i) => (
-                  <div key={i} className="w-20 h-12 bg-warmGray-100 rounded-lg animate-pulse" />
+                  <div key={i} className="w-20 h-12 bg-surfaceAlt rounded-lg animate-pulse" />
                 ))}
               </div>
             </div>
           ) : !schedule || schedule.entries.length === 0 ? (
-            <p className="text-center text-sm text-warmGray-500">
+            <p className="text-center text-sm text-muted">
               {t("hero_prayer_unavailable", lang)}
             </p>
           ) : (
@@ -279,18 +279,18 @@ export function HeroSection({ config }: { config: SiteConfig }) {
                     aria-current={isNext ? "true" : undefined}
                     className={`flex flex-col items-center rounded-lg px-4 py-2 min-w-[80px] transition-colors ${
                       isNext
-                        ? "bg-primary/5 border-2 border-primary shadow-sm"
-                        : "bg-white border border-warmGray-200 shadow-sm"
+                        ? "bg-brandSolid/5 border-2 border-brand shadow-sm"
+                        : "bg-surface border border-line shadow-sm"
                     }`}
                   >
                     <span
                       className={`text-xs font-medium ${
-                        isNext ? "text-primary" : "text-warmGray-500"
+                        isNext ? "text-brand" : "text-muted"
                       }`}
                     >
                       {t(PRAYER_LABEL_KEYS[entry.key], lang)}
                     </span>
-                    <span className="text-sm font-bold text-primary" dir="ltr">
+                    <span className="text-sm font-bold text-brand" dir="ltr">
                       {entry.time}
                     </span>
                   </div>
